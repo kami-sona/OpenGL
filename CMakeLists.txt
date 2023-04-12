@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 
+set(CMAKE_CXX_STANDARD 11)
+
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(LearnOpenGL)
 
@@ -12,4 +15,4 @@ add_executable(${PROJECT_NAME} main.cpp)
 add_subdirectory(${PROJECT_SOURCE_DIR}/external/glfw ${PROJECT_SOURCE_DIR}/external/GLAD)
 
 
-target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
+target_link_libraries(${PROJECT_NAME} PUBLIC glfw GLAD)
