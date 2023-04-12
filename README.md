@@ -12,7 +12,7 @@ This is my own learning progress of OpenGL by using glfw,imgui and other third l
 
 ```sh
 git clone https://github.com/kami-sona/OpenGL.git source/
-git submodule upgrade --init
+git submodule update --init
 ```
 
 4.The use CMake Create project
