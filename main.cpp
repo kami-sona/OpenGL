@@ -18,6 +18,8 @@ int main()
 		return -1;
 	}
 
+
+
 	while (!glfwWindowShouldClose(windows))
 	{
 		glClearColor(1.0f, 1.0f, 0.6f, 1.0f);

@@ -13,7 +13,7 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_executable(${PROJECT_NAME} main.cpp)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/external/glfw)
-add_subdirectory(${PROJECT_SOURCE_DIR}/external/GLAD)
+add_subdirectory(${PROJECT_SOURCE_DIR}/external)
 
 
-target_link_libraries(${PROJECT_NAME} PUBLIC glfw GLAD)
+target_link_libraries(${PROJECT_NAME} PUBLIC glfw GLAD Imgui)
