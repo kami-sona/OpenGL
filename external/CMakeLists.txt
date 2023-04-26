@@ -8,7 +8,9 @@ add_library(Imgui ${ImguiPath}/imgui_demo.cpp
 			${ImguiPath}/imgui_draw.cpp
 			${ImguiPath}/imgui_tables.cpp
 			${ImguiPath}/imgui_widgets.cpp
-			${ImguiPath}/imgui.cpp)
+			${ImguiPath}/imgui.cpp
+			${ImguiPath}/backends/imgui_impl_opengl3.cpp
+			${ImguiPath}/backends/imgui_impl_glfw.cpp)
 
 target_include_directories(GLAD
           PUBLIC ${GLADPath}/includes
@@ -16,4 +18,9 @@ target_include_directories(GLAD
 
 target_include_directories(Imgui
           PUBLIC ${ImguiPath}
+	    PUBLIC ${ImguiPath}/backends
           )
+
+target_link_libraries(Imgui PUBLIC glfw)
+
+
