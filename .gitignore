@@ -7,6 +7,9 @@
 *.vcxproj
 *.vcxproj*
 build/
+*.exe
+*.exe.manifest
+*.ini
 
 # User-specific files
 *.rsuser
