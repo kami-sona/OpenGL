@@ -4,15 +4,17 @@
 
 DT_Window::DT_Window(int width, int height, string name, GLFWmonitor* monitor, GLFWwindow* share)
 {
-	glfwInit();
 
 	CWindow = glfwCreateWindow(width, height, name.c_str(), monitor,share);
 
 	if (!CWindow)
 		throw "Can't create window";
 
-	glfwMakeContextCurrent(CWindow);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+	glfwMakeContextCurrent(CWindow);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
@@ -25,6 +27,11 @@ DT_Window::~DT_Window()
 {
 	if (CWindow)
 		glfwDestroyWindow(CWindow);
+}
+
+GLFWwindow* DT_Window::GetWindow() const
+{
+	return CWindow;
 }
 
 bool DT_Window::IsClose() const
@@ -40,4 +47,9 @@ void DT_Window::SwapBuffer() const
 void DT_Window::PollEvents() const
 {
 	glfwPollEvents();
+}
+
+void DT_Window::SetBufferFresh() const
+{
+	glfwSetFramebufferSizeCallback(CWindow, GF_BindStd::framesize_callback);
 }
