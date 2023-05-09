@@ -13,7 +13,7 @@ void ShaderProgram::use()
 
 Shader::Shader(string path)
 {
-	ShaderCode = make_unique<dt_filestd::DT_File>(path);
+	ShaderCode = make_unique<DT_File>(path);
 	ShaderCode_C = ShaderCode->Data.c_str();
 }
 

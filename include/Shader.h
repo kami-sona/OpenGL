@@ -14,7 +14,7 @@ public:
 
 	void use();
 
-private:
+
 	GLuint ProgramID;
 };
 
@@ -29,7 +29,7 @@ public:
 
 	GLuint ShaderID;
 	const char* ShaderCode_C;
-	unique_ptr<dt_filestd::DT_File>ShaderCode;
+	unique_ptr<DT_File>ShaderCode;
 };
 
 class VertexShader : public Shader
