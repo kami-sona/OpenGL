@@ -2,6 +2,7 @@
 #include "DT_Window.h"
 #include "Shader.h"
 #include "UsrImgui.h"
+#include "DT_VertexCore.h"
 
 
 int main()
@@ -11,7 +12,23 @@ int main()
 	DT_Window window(800, 600);
 	window.SetBufferFresh();
 
-	UsrImgui a(window.GetWindow(),"#version 130");
+	UsrImgui imgui_window(window.GetWindow(),"#version 130");
+
+	vector<vector<float>> San =
+	{
+		{0.2f,0.0f,0.0f, 1.0f,0.0f,0.0f},
+		{0.0f,0.2f,0.0f, 0.0f,1.0f,0.0f},
+		{-0.2f,0.0f,0.0f, 0.0f,0.0f,1.0f}
+	};
+
+	float San2[] =
+	{
+		0.2f,0.0f,0.0f, 1.0f,0.0f,0.0f,
+		0.3f,0.2f,0.0f, 0.0f,1.0f,0.0f,
+		0.4f,0.0f,0.0f, 0.0f,0.0f,1.0f
+	};
+
+	VBO a(&San);
 
 
 	ShaderProgram P;
@@ -20,23 +37,26 @@ int main()
 	V.Compile(P);
 	F.Compile(P);
 	P.use();
-	a.Init();
+
+
+	imgui_window.Init();
 
 
 	while (!window.IsClose())
 	{
+		imgui_window.NewFrame();
 
-		a.NewFrame();
-
+		glClear(GL_COLOR_BUFFER_BIT);
+		a.Draw();
 		
-		a.Update();
-		a.Render();
+		imgui_window.Update();
+		imgui_window.Render();
 		window.SwapBuffer();
 		window.PollEvents();
 	}
 
 
-	a.Shutdown();
+	imgui_window.Shutdown();
 	glfwTerminate();
 
 	return 0;
