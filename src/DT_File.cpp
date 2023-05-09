@@ -1,6 +1,6 @@
 #include "DT_File.h"
 
-dt_filestd::DT_File::DT_File(string path)
+DT_File::DT_File(string path)
 {
 	ifstream file;
 	stringstream str_file;
