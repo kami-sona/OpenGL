@@ -4,7 +4,6 @@
 #include "UsrImgui.h"
 #include "DT_VertexCore.h"
 
-
 int main()
 {
 	glfwInit();
@@ -14,21 +13,28 @@ int main()
 
 	UsrImgui imgui_window(window.GetWindow(),"#version 130");
 
-	vector<vector<float>> San =
-	{
-		{0.2f,0.0f,0.0f, 1.0f,0.0f,0.0f},
-		{0.0f,0.2f,0.0f, 0.0f,1.0f,0.0f},
-		{-0.2f,0.0f,0.0f, 0.0f,0.0f,1.0f}
-	};
 
-	float San2[] =
-	{
-		0.2f,0.0f,0.0f, 1.0f,0.0f,0.0f,
-		0.3f,0.2f,0.0f, 0.0f,1.0f,0.0f,
-		0.4f,0.0f,0.0f, 0.0f,0.0f,1.0f
-	};
+	unique_ptr<vector<vector<float>>> pos = make_unique<vector<vector<float>>>(
+		initializer_list<vector<float>>{
+			{0.5, 0.0, 0.0},
+			{ 0.0,0.5,0.0 },
+			{ -0.5,0.0,0.0 }
+		}
+	);
+	
+	unique_ptr<vector<vector<float>>> color = make_unique<vector<vector<float>>>(
+		initializer_list<vector<float>>{
+			{1.0, 0.0, 0.0},
+			{ 0.0,1.0,0.0 },
+			{ 0.0,0.0,1.0 }
+	}
+	);
 
-	VBO a(&San);
+
+	VAO vao;
+	vao.ConverToVertex(pos, VERTEX_POS);
+	vao.ConverToVertex(color, VERTEX_COLOR_POS);
+
 
 
 	ShaderProgram P;
@@ -47,7 +53,7 @@ int main()
 		imgui_window.NewFrame();
 
 		glClear(GL_COLOR_BUFFER_BIT);
-		a.Draw();
+		vao.Draw();
 		
 		imgui_window.Update();
 		imgui_window.Render();
