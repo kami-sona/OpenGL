@@ -1,46 +1,10 @@
 #include "DT_VertexCore.h"
 
 
-DT_VboDataType VerObjBase::_ToOneLine(vector<vector<float>>* TwoDem)
+VAO::VAO()
 {
-
-	unsigned int ElemntCount = 0;
-	unsigned int Step = (*TwoDem)[0].size() * sizeof(float);
-	unsigned int Offset = 3*sizeof(float);  
-	unsigned int Count = 0;
-
-	for (const auto& p : *TwoDem)
-	{
-		ElemntCount += p.size();
-		Count++;
-	}
-	unique_ptr<float[]> VboData = make_unique<float[]>(ElemntCount);
-
-	unsigned int k = 0;
-	for (unsigned i = 0; i < (*TwoDem).size(); i++)
-	{
-		for (unsigned j = 0; j < (*TwoDem)[i].size(); j++)
-		{
-			VboData[k] = (*TwoDem)[i][j];	
-			if (k < ElemntCount - 1)
-				k++;
-		}
-	}
-	cout << endl;
-
-	return make_tuple(move(VboData), ElemntCount, Step, Offset,Count);
-}
-
-VAO::VAO(vector<VBO*>*VBO_set)
-{
-	VAO_Attr = unique_ptr<vector<VBO*>>(VBO_set);
 	glGenVertexArrays(1, &VAO_ID);
 	glBindVertexArray(VAO_ID);
-}
-
-void VAO::AddVbo()
-{
-
 }
 
 VAO::~VAO()
@@ -60,27 +24,41 @@ void VAO::_UnBind()
 
 void VAO::Draw()
 {
+	_Bind();
+	glDrawArrays(GL_TRIANGLES,0, (VBO_Array[VERTEX_POS]->GetCount()) / sizeof(float));
+}
 
+void VAO::ConverToVertex(DT_VboDataType& targrVBO, DT_UVertexLocation Location)
+{
+	VBO_Array[Location] = make_unique<VBO>(targrVBO, Location);
 }
 
 
-
-VBO::VBO(vector<vector<float>>* VBO_data)
+VBO::VBO(DT_VboDataType& VBO_data,DT_UVertexLocation Location)
 {
-	DT_VboDataType  Calculate = _ToOneLine(VBO_data);
-	Vertex_Attr = move(get<0>(Calculate));
-	Vertex_Size = get<1>(Calculate);
-	Vertex_Step = get<2>(Calculate);
-	Vertex_Offset = get<3>(Calculate);
-	Vertex_Count = get<4>(Calculate);
+	Vertex_Attr = move(VBO_data);
+	VBO_Location = Location;
+	Count = (Vertex_Attr->size())*3;
+
+	std::vector<float> flattenedData;
+
+	// 将所有元素复制到辅助向量中
+	for (const auto& innerVec : (*(Vertex_Attr.get()))) {
+		flattenedData.insert(flattenedData.end(), innerVec.begin(), innerVec.end());
+	}
+
+	// 访问连续的数据
+	const float* dataPtr = flattenedData.data();
+
+	for (size_t i = 0; i < flattenedData.size(); ++i) {
+		std::cout << "Data address [" << i << "]: " << (dataPtr + i) << std::endl;
+	}
 
 	glGenBuffers(1, &VBO_ID);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO_ID);
-	glBufferData(GL_ARRAY_BUFFER, Vertex_Size * sizeof(float), Vertex_Attr.get(),GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, Vertex_Step, (void*)(Vertex_Offset * 0));
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, Vertex_Step, (void*)(Vertex_Offset * 1));
-	glEnableVertexAttribArray(1);
+	glBufferData(GL_ARRAY_BUFFER,Count*sizeof(float), flattenedData.data(), GL_STATIC_DRAW);
+	glVertexAttribPointer(Location, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(Location);
 }
 
 void VBO::_Bind()
@@ -95,7 +73,11 @@ void VBO::_UnBind()
 
 void VBO::Draw()
 {
-	glDrawArrays(GL_TRIANGLES, 0, Vertex_Count);
+}
+
+DT_UVertexCount VBO::GetCount() const
+{
+	return Count;
 }
 
 VBO::~VBO()
