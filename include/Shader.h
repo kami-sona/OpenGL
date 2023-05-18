@@ -1,6 +1,7 @@
 #pragma once
 #include "DT_File.h"
 #include "glad/glad.h"
+#include "DT_MetaData.h"
 
 class ShaderProgram;
 class Shader;
@@ -14,6 +15,7 @@ public:
 
 	void use();
 
+	void Uniform4f(Vector4D EditValue, string name) const;
 
 	GLuint ProgramID;
 };

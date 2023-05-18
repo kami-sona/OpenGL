@@ -15,7 +15,7 @@ public:
 	void Shutdown();
 
 private:
-
+	
 	GLFWwindow* cwindow;
 	const char* glsl_version;
 };

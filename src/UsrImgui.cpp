@@ -21,8 +21,7 @@ void UsrImgui::Init()
 
 void UsrImgui::Update()
 {
-    ImGui::Begin("Hello, world!");                       
-    ImGui::Text("This is some useful text.");
+    ImGui::Begin("Triangle Color");                     
     ImGui::End();
 }
 
@@ -47,3 +46,5 @@ void UsrImgui::Shutdown()
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
 }
+
+

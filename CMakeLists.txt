@@ -14,7 +14,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 
 
 aux_source_directory(${PROJECT_SOURCE_DIR}/src DIR_SRCS)
-add_executable(${PROJECT_NAME} ${DIR_SRCS} "include/DT_VertexCore.h"  "src/DT_VertexCore.cpp" "include/DT_VertexCore.h")
+add_executable(${PROJECT_NAME} ${DIR_SRCS})
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/external/glfw)
 add_subdirectory(${PROJECT_SOURCE_DIR}/external)

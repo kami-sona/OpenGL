@@ -2,7 +2,7 @@
 #include "DT_Window.h"
 #include "Shader.h"
 #include "UsrImgui.h"
-#include "DT_VertexCore.h"
+#include "DT_Mesh.h"
 
 int main()
 {
@@ -16,9 +16,10 @@ int main()
 
 	unique_ptr<vector<vector<float>>> pos = make_unique<vector<vector<float>>>(
 		initializer_list<vector<float>>{
-			{0.5, 0.0, 0.0},
-			{ 0.0,0.5,0.0 },
-			{ -0.5,0.0,0.0 }
+			{0.5, 0.5, 0.0},
+			{ -0.5,0.5,0.0 },
+			{ -0.5,-0.5,0.0 },
+			{0.5,-0.5,0.0,}
 		}
 	);
 	
@@ -26,15 +27,34 @@ int main()
 		initializer_list<vector<float>>{
 			{1.0, 0.0, 0.0},
 			{ 0.0,1.0,0.0 },
-			{ 0.0,0.0,1.0 }
+			{ 0.0,0.0,1.0 },
+			{1.0,0.0,0.0}
+	}
+	);
+
+	unique_ptr<vector<vector<float>>> pos2 = make_unique<vector<vector<float>>>(
+		initializer_list<vector<float>>{
+			{0.5,0.0,0.0},
+			{0.5,0.5,0.0},
+			{1.0,0.0,0.0},
 	}
 	);
 
 
-	VAO vao;
-	vao.ConverToVertex(pos, VERTEX_POS);
-	vao.ConverToVertex(color, VERTEX_COLOR_POS);
 
+
+
+	DT_EboDataType index = make_unique<vector<unsigned int>>(
+		initializer_list<unsigned int>{
+		0u,1u,3u,
+		2u,1u,3u
+	}
+	);
+
+	Mesh a;
+	a.Init(pos, VERTEX_POS);
+	a.Init(color, VERTEX_COLOR_POS);
+	a.Init(index);
 
 
 	ShaderProgram P;
@@ -42,18 +62,18 @@ int main()
 	FragShader F("resource/fragShaderCode.frag");
 	V.Compile(P);
 	F.Compile(P);
-	P.use();
+
 
 
 	imgui_window.Init();
-
 
 	while (!window.IsClose())
 	{
 		imgui_window.NewFrame();
 
 		glClear(GL_COLOR_BUFFER_BIT);
-		vao.Draw();
+		P.use();
+		a.Render();
 		
 		imgui_window.Update();
 		imgui_window.Render();

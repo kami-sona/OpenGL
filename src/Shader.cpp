@@ -1,5 +1,6 @@
 #include "Shader.h"
 
+
 ShaderProgram::ShaderProgram()
 {
 	ProgramID = glCreateProgram();
@@ -10,6 +11,8 @@ void ShaderProgram::use()
 	glLinkProgram(ProgramID);
 	glUseProgram(ProgramID);
 }
+
+
 
 Shader::Shader(string path)
 {
