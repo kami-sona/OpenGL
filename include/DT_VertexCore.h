@@ -18,6 +18,8 @@ using DT_VboDataType = unique_ptr<vector<vector<float>>>;
 using DT_UVertexLocation = unsigned short;
 //该类型是数组元素的个数
 using DT_UVertexCount = unsigned int;
+//该类型是EBO
+using DT_EboDataType = unique_ptr<vector<unsigned int>>;
 
 class VerObjBase
 {
@@ -43,6 +45,8 @@ public:
 	//调用gldrawarrays()
 	void Draw() override;
 
+	void MatchVertex(DT_EboDataType & EBO_data);
+
 	//第一个参数是一个DT_VboDataType数据的引用，第二个参数是需要传入顶点着色器位置的参数
 	//该函数的作用是创建一个与位置对应的单独的位置，颜色数据等，主要创建一个VBO对象并保存到map中
 	void ConverToVertex(DT_VboDataType& targrVBO,DT_UVertexLocation Location);
@@ -51,6 +55,11 @@ public:
 private:
 	GLuint VAO_ID;
 	//VAO的ID
+
+	GLuint EBO_ID;
+
+	DT_EboDataType EBO_data;
+
 	map<unsigned int, unique_ptr<VBO>>VBO_Array;
 	//VAO中包含所有绑定的VBO，通过字典访问对应VBO;
 };
@@ -78,11 +87,13 @@ public:
 private:
 	GLuint VBO_ID;
 	//VBO对象的ID
+
 	DT_VboDataType Vertex_Attr;
 	//VBO对象的数据本体指针
 
 	DT_UVertexLocation VBO_Location;
 	//VBO属于哪个位置
 	DT_UVertexCount Count;
+
 };
 

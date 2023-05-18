@@ -5,6 +5,7 @@ VAO::VAO()
 {
 	glGenVertexArrays(1, &VAO_ID);
 	glBindVertexArray(VAO_ID);
+	glGenBuffers(1, &EBO_ID);
 }
 
 VAO::~VAO()
@@ -25,7 +26,17 @@ void VAO::_UnBind()
 void VAO::Draw()
 {
 	_Bind();
-	glDrawArrays(GL_TRIANGLES,0, (VBO_Array[VERTEX_POS]->GetCount()) / sizeof(float));
+	if (EBO_data)
+		glDrawElements(GL_TRIANGLES, (EBO_data->size()) * sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+	else
+		glDrawArrays(GL_TRIANGLES, 0, (VBO_Array[VERTEX_POS]->GetCount()) / 3);
+}
+
+void VAO::MatchVertex(DT_EboDataType& EBO)
+{
+	EBO_data = move(EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO_ID);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, (EBO_data->size()) * sizeof(unsigned int), EBO_data->data(), GL_STATIC_DRAW);
 }
 
 void VAO::ConverToVertex(DT_VboDataType& targrVBO, DT_UVertexLocation Location)
@@ -45,13 +56,6 @@ VBO::VBO(DT_VboDataType& VBO_data,DT_UVertexLocation Location)
 	// 将所有元素复制到辅助向量中
 	for (const auto& innerVec : (*(Vertex_Attr.get()))) {
 		flattenedData.insert(flattenedData.end(), innerVec.begin(), innerVec.end());
-	}
-
-	// 访问连续的数据
-	const float* dataPtr = flattenedData.data();
-
-	for (size_t i = 0; i < flattenedData.size(); ++i) {
-		std::cout << "Data address [" << i << "]: " << (dataPtr + i) << std::endl;
 	}
 
 	glGenBuffers(1, &VBO_ID);
