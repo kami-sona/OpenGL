@@ -8,29 +8,45 @@ ShaderProgram::ShaderProgram()
 
 void ShaderProgram::use()
 {
-	glLinkProgram(ProgramID);
 	glUseProgram(ProgramID);
 }
 
+GLuint ShaderProgram::Get() const
+{
+	return ProgramID;
+}
 
+void ShaderProgram::Compile(Shader* shader)
+{
+	auto code = shader->ShaderCode.c_str();
+	glShaderSource(shader->ShaderID, 1,&code, nullptr);
+	glCompileShader(shader->ShaderID);
+	glAttachShader(ProgramID, shader->ShaderID);
+	glLinkProgram(ProgramID);
+}
+void ShaderProgram::SetInt(GLint Location, GLint Value)
+{
+	use();
+	glUniform1i(Location, Value);
+}
+
+void ShaderProgram::SetFloat(GLint Location, GLfloat Value)
+{
+	use();
+	glUniform1f(Location,Value);
+}
 
 Shader::Shader(string path)
 {
-	ShaderCode = make_unique<DT_File>(path);
-	ShaderCode_C = ShaderCode->Data.c_str();
+	ShaderID = 0;
+	auto ShaderFile = make_unique<DT_File>(path);
+	ShaderCode = ShaderFile->Data;
 }
 
 
 Shader::~Shader()
 {
 	glDeleteShader(ShaderID);
-}
-
-void Shader::Compile(const ShaderProgram& Pro)
-{
-	glShaderSource(ShaderID, 1, &ShaderCode_C, nullptr);
-	glCompileShader(ShaderID);
-	glAttachShader(Pro.ProgramID, ShaderID);
 }
 
 

@@ -53,3 +53,8 @@ void DT_Window::SetBufferFresh() const
 {
 	glfwSetFramebufferSizeCallback(CWindow, GF_BindStd::framesize_callback);
 }
+
+void DT_Window::SetInputFresh() const
+{
+	glfwSetKeyCallback(CWindow, GF_BindStd::process_input);
+}

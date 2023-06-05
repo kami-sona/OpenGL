@@ -1,4 +1,5 @@
-#include "DT_Image.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include <DT_Image.h>
 
 IMAGE::IMAGE(string path)
 {
@@ -12,4 +13,5 @@ IMAGE_DATA IMAGE::GetImageInfo()
 
 IMAGE::~IMAGE()
 {
+	stbi_image_free(Data);
 }

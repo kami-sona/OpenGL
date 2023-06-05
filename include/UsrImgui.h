@@ -14,6 +14,9 @@ public:
 	void NewFrame();
 	void Shutdown();
 
+	float Mix = 0;
+	float Angle = 0;
+
 private:
 	
 	GLFWwindow* cwindow;

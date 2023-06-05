@@ -21,7 +21,9 @@ void UsrImgui::Init()
 
 void UsrImgui::Update()
 {
-    ImGui::Begin("Triangle Color");                     
+    ImGui::Begin("Triangle Color");        
+    ImGui::SliderFloat("MixValue", &Mix, 0, 1);
+    ImGui::SliderFloat("Angle", &Angle, 0, 180);
     ImGui::End();
 }
 

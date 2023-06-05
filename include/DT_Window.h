@@ -21,6 +21,8 @@ public:
 	void PollEvents() const;
 
 	void SetBufferFresh()const;
+
+	void SetInputFresh() const;
 private:
 
 	GLFWwindow* CWindow;

@@ -1,10 +1,11 @@
 #pragma once
 #include "DT_File.h"
 #include "glad/glad.h"
-#include "DT_MetaData.h"
 
 class ShaderProgram;
 class Shader;
+class VertexShader;
+class FragShader;
 
 class ShaderProgram
 {
@@ -15,8 +16,15 @@ public:
 
 	void use();
 
-	void Uniform4f(Vector4D EditValue, string name) const;
+	void Compile(Shader* shader);
 
+	GLuint Get() const;
+
+	void SetInt(GLint Location, GLint value);
+
+	void SetFloat(GLint Location, GLfloat Value);
+
+private:
 	GLuint ProgramID;
 };
 
@@ -27,11 +35,9 @@ public:
 	Shader(string path);
 	virtual ~Shader();
 
-	virtual void Compile(const ShaderProgram& Pro);
 
 	GLuint ShaderID;
-	const char* ShaderCode_C;
-	unique_ptr<DT_File>ShaderCode;
+	string ShaderCode;
 };
 
 class VertexShader : public Shader

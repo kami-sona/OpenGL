@@ -49,7 +49,9 @@ VBO::VBO(DT_VboDataType& VBO_data,DT_UVertexLocation Location)
 {
 	Vertex_Attr = move(VBO_data);
 	VBO_Location = Location;
-	Count = (Vertex_Attr->size())*3;
+	Count = (Vertex_Attr->size())*(Vertex_Attr->at(0).size());
+	int step = Vertex_Attr->at(0).size();
+
 
 	std::vector<float> flattenedData;
 
@@ -61,7 +63,7 @@ VBO::VBO(DT_VboDataType& VBO_data,DT_UVertexLocation Location)
 	glGenBuffers(1, &VBO_ID);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO_ID);
 	glBufferData(GL_ARRAY_BUFFER,Count*sizeof(float), flattenedData.data(), GL_STATIC_DRAW);
-	glVertexAttribPointer(Location, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(Location, step, GL_FLOAT, GL_FALSE, step * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(Location);
 }
 
