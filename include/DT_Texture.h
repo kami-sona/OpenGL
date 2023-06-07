@@ -14,7 +14,7 @@ public:
 	Texture();
 
 	//初始化一个纹理，包含它的名字以及指针
-	Texture(IMAGE_Ptr& Image, GLenum Tex);
+	Texture(IMAGE_Ptr Image, GLenum Tex);
 
 	//切换到当前缓冲
 	void _bind();

@@ -5,7 +5,7 @@ Texture::Texture()
 	glGenBuffers(1, &TextureID);
 }
 
-Texture::Texture(IMAGE_Ptr& Image,GLenum Tex)
+Texture::Texture(IMAGE_Ptr Image,GLenum Tex)
 {
 	glGenTextures(1, &TextureID);
 	ImageData = move(Image);

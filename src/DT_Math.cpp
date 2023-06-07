@@ -1,7 +1,8 @@
 #include "DT_Math.h"
 
-Matrix4f DT_Transform::Translate(Vector3f& Targetpos, Matrix4f& UnitMatrix)
+Matrix4f DT_Transform::Translate(Vector3f& Targetpos)
 {
+	Matrix4f UnitMatrix = Matrix4f::Identity();
 	UnitMatrix(0, 3) = Targetpos.x();
 	UnitMatrix(1, 3) = Targetpos.y(); 
 	UnitMatrix(2,3) = Targetpos.z();
