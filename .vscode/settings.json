@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "os_task.h": "c",
+        "arch_exception.h": "c",
+        "arch_task.h": "c",
+        "os_safety.h": "c",
+        "arch_interrupt.h": "c",
+        "nnls": "cpp"
+    }
+}

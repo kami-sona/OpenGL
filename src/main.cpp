@@ -138,16 +138,19 @@ int main()
 
 	glEnable(GL_DEPTH_TEST);
 
-
+	Eigen::Matrix4f ModelTransform = Matrix4f::Identity();
 
 	while (!window.IsClose())
 	{
 		imgui_window.NewFrame();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		Eigen::Vector3f Tpos = { 0.0,0.0,3.0 };
-		Eigen::Matrix4f ModelTransform = DT_Transform::Translate(Tpos);
-		ModelTransform = DT_Transform::Rotate(45.0f,Vector3f(1.0,0.0,0.0));
+
+		ModelTransform = DT_Transform::Translate(Vector3f(imgui_window.x,imgui_window.y,imgui_window.z));
+		ModelTransform *= DT_Transform::Scale(Vector3f(imgui_window.scale,imgui_window.scale,imgui_window.scale));
+		ModelTransform *= DT_Transform::Rotate(imgui_window.Rotate_x, Vector3f(1, 0, 0));
+		ModelTransform *= DT_Transform::Rotate(imgui_window.Rotate_y, Vector3f(0, 1, 0));
+		ModelTransform *= DT_Transform::Rotate(imgui_window.Rotate_z, Vector3f(0, 0, 1));
 
 
 		Eigen::Vector3f CameraPos = { 0.0,0.0,7.0 };
@@ -160,15 +163,15 @@ int main()
 
 
 
-		// ¶¨ÒåÍ¶Ó°²ÎÊý
+		// ï¿½ï¿½ï¿½ï¿½Í¶Ó°ï¿½ï¿½ï¿½ï¿½
 		int width;
 		int height;
 		glfwGetFramebufferSize(window.GetWindow(), &width, &height);
 
-		float fov = PI/4; // ÊÓÒ°½Ç¶È
-		float aspectRatio = (float)width / (float)height; // ¿í¸ß±È
-		float nearPlane = 0.1f; // ½üÆ½Ãæ¾àÀë
-		float farPlane = 100.0f; // Ô¶Æ½Ãæ¾àÀë
+		float fov = PI/4; // ï¿½ï¿½Ò°ï¿½Ç¶ï¿½
+		float aspectRatio = (float)width / (float)height; // ï¿½ï¿½ï¿½ß±ï¿½
+		float nearPlane = 0.1f; // ï¿½ï¿½Æ½ï¿½ï¿½ï¿½ï¿½ï¿½
+		float farPlane = 100.0f; // Ô¶Æ½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 		Eigen::Matrix4f proj{
 			{1 / tan(fov / 2), 0, 0, 0},
@@ -176,7 +179,6 @@ int main()
 			{ 0,0,-(farPlane + nearPlane) / (farPlane - nearPlane), (-2 * farPlane * nearPlane) / (farPlane - nearPlane) },
 			{ 0,0,-1,0 }
 		};
-
 
 
 		glUniformMatrix4fv(glGetUniformLocation(P.Get(), "model"), 1, GL_FALSE, ModelTransform.data());
@@ -190,7 +192,6 @@ int main()
 		Smile._bind();
 		a.Render();
 
-		ModelTransform = DT_Transform::Translate(Vector3f(-2.0, 0.0, 0.0));
 		glUniformMatrix4fv(glGetUniformLocation(P.Get(), "model"), 1, GL_FALSE, ModelTransform.data());
 		a.Render();
 

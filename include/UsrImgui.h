@@ -16,8 +16,15 @@ public:
 
 	float Mix = 0;
 	float Angle = 0;
+	float x = 0;
+	float y = 0;
+	float z = 0;
+	float scale = 1;
+	float Rotate_x = 0;
+	float Rotate_y = 0;
+	float Rotate_z = 0;
 
-private:
+private :
 	
 	GLFWwindow* cwindow;
 	const char* glsl_version;

@@ -31,6 +31,16 @@ Matrix4f DT_Transform::Rotate(float Angles, Vector3f& UnitVector)
 	return Target;
 }
 
+Matrix4f DT_Transform::Scale(Vector3f& Targetscale)
+{
+	Matrix4f UnitMatrix = Matrix4f::Identity();
+	UnitMatrix(0, 0) *= Targetscale.x();
+	UnitMatrix(1, 1) *= Targetscale.y(); 
+	UnitMatrix(2, 2) *= Targetscale.z();
+
+	return UnitMatrix;
+}
+
 Matrix4f DT_Transform::LookAt(Vector3f& Eye, Vector3f& Target, Vector3f& upDir)
 {
 	Vector3f forawrd = Eye - Target;

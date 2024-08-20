@@ -22,8 +22,15 @@ void UsrImgui::Init()
 void UsrImgui::Update()
 {
     ImGui::Begin("Triangle Color");        
-    ImGui::SliderFloat("MixValue", &Mix, 0, 1);
+    //ImGui::SliderFloat("MixValue", &Mix, 0, 1);
     ImGui::SliderFloat("Angle", &Angle, 0, 180);
+    ImGui::SliderFloat("Location_X", &x, 0, 1);
+    ImGui::SliderFloat("Location_Y", &y, 0, 1);
+    ImGui::SliderFloat("Location_Z", &z, 0, 1);
+    ImGui::SliderFloat("Rotate_X", &Rotate_x, 0, 360);
+    ImGui::SliderFloat("Rotate_Y", &Rotate_y, 0, 360);
+    ImGui::SliderFloat("Rotate_Z", &Rotate_z, 0, 360);
+    ImGui::SliderFloat("scale", &scale, 1, 5);
     ImGui::End();
 }
 
